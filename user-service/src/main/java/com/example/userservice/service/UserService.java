@@ -48,7 +48,7 @@ public class UserService {
     }
 
     /**
-     * Retrieves an user by id and returns him as DTO
+     * Retrieves user by id and returns him as DTO
      * @param id
      * @return
      */

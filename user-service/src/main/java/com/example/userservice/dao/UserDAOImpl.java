@@ -41,7 +41,6 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-
     @Override
     public void createOrUpdate(User user) {
         try (var session = sessionFactory.openSession()) {
