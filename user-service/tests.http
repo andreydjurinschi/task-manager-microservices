@@ -1,0 +1,26 @@
+http://localhost:8083/realms/task-manager/protocol/openid-connect/auth
+    ?client_id=my-client
+    &response_type=code
+    &scope=openid
+    &redirect_uri=http://localhost:8081/swagger-ui/oauth2-redirect.html
+
+###
+
+# curl --location --request POST 'http://localhost:8081/realms/task-manager/protocol/openid-connect/token'
+#--header 'Content-Type: application/x-www-form-urlencoded'
+#--data-urlencode 'grant_type=authorization_code'
+#--data-urlencode 'code=1561f413-9a75-43c0-9e5d-dee4497f1a35.a0704054-7439-45f6-8ac0-1525d132b40a.bdddaebc-503f-4a0e-8b36-2a994a3a7459'
+#--data-urlencode 'redirect_uri=http://localhost:8080/swagger-ui/index.html'
+#--data-urlencode 'client_id=my-client'
+#--data-urlencode 'client_secret=HuE45EvZwwTEzzTkAE9z4zTBHGY3NDnY'
+POST http://localhost:8081/realms/task-manager/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type = authorization_code &
+code = 1561f413-9a75-43c0-9e5d-dee4497f1a35.a0704054-7439-45f6-8ac0-1525d132b40a.bdddaebc-503f-4a0e-8b36-2a994a3a7459 &
+redirect_uri = http%3A%2F%2Flocalhost%3A8080%2Fswagger-ui%2Findex.html &
+client_id = my-client &
+client_secret = HuE45EvZwwTEzzTkAE9z4zTBHGY3NDnY
+
+###
+

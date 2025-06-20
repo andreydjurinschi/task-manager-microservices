@@ -8,6 +8,9 @@ import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,19 +25,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    //@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<?> getAllUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
-    /*@PreAuthorize("hasRole('ADMIN')")*/
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/by-username/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         return new ResponseEntity<>(userService.getUserByUsername(username), HttpStatus.OK);
     }
 
-    /*@PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")*/
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
@@ -45,7 +48,7 @@ public class UserController {
         }
     }
 /*
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userUpdateDTO) {
         try {
@@ -57,7 +60,7 @@ public class UserController {
         }
     }*/
 
-    /*@PreAuthorize("hasRole('ADMIN')")*/
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserDTO userCreateDTO) {
         try {
