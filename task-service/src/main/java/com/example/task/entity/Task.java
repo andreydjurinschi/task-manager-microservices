@@ -1,4 +1,4 @@
-package entity;
+package com.example.task.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +23,8 @@ public class Task {
 
     private TaskStatus status;
 
+    public Task() {
+    }
 
     public Task(Long id, String title, String description, Long createdById, Long assignedTo, TaskStatus status) {
         Id = id;
