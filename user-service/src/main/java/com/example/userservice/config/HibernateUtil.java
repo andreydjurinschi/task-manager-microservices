@@ -35,9 +35,9 @@ public class HibernateUtil {
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }
-
     @Bean
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
         return new HibernateTransactionManager(sessionFactory);
     }
+
 }
