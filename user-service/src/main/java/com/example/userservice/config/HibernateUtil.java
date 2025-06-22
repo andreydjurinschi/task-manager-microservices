@@ -1,43 +1,46 @@
 package com.example.userservice.config;
 
+import com.example.userservice.entity.User;
+import com.example.userservice.entity.User;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.cfg.Configuration; // <-- важно: это Hibernate
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
+@org.springframework.context.annotation.Configuration
 public class HibernateUtil {
 
-    @Autowired
-    private DataSource dataSource;
-
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
-        String UserPackage = "com.example.userservice.entity";
-        sessionFactory.setPackagesToScan(UserPackage);
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
-    }
+    public SessionFactory sessionFactory() {
+        Properties props = new Properties();
 
-    @Bean
-    public Properties hibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-        hibernateProperties.setProperty("hibernate.format_sql", "true");
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
-        return hibernateProperties;
-    }
-    @Bean
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-        return new HibernateTransactionManager(sessionFactory);
-    }
 
+        String url = System.getenv("SPRING_DATASOURCE_URL");
+        String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
+
+
+        if (url == null || url.isEmpty()) {
+            url = "jdbc:postgresql://localhost:5433/task-manager-user_db";
+            username = "admin";
+            password = "pass";
+        }
+
+        props.put("hibernate.connection.url", url);
+        props.put("hibernate.connection.username", username);
+        props.put("hibernate.connection.password", password);
+        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.show_sql", "true");
+
+
+        Configuration configuration = new Configuration();
+        configuration.setProperties(props);
+
+
+        configuration.addAnnotatedClass(User.class);
+
+        return configuration.buildSessionFactory();
+    }
 }

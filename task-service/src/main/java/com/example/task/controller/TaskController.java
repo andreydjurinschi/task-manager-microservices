@@ -1,5 +1,6 @@
 package com.example.task.controller;
 
+import com.example.task.dto.TaskDTO;
 import com.example.task.entity.Task;
 import com.example.task.entity.TaskStatus;
 import com.example.task.service.TaskService;
@@ -19,7 +20,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getAllTasks() {
+    public List<TaskDTO> getAllTasks() {
         return taskService.findAll();
     }
 
@@ -38,8 +39,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.save(task);
+    public TaskDTO createTask(@RequestBody TaskDTO task) {
+        taskService.save(task);
+        return task;
     }
 
     @PutMapping("/{id}/status")

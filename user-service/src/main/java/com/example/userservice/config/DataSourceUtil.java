@@ -1,3 +1,4 @@
+/*
 package com.example.userservice.config;
 
 import org.springframework.context.annotation.Bean;
@@ -11,10 +12,18 @@ public class DataSourceUtil {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:postgresql://localhost:5433/task-manager-user_db");
-        dataSource.setUsername("admin");
-        dataSource.setPassword("pass");
+
+        // читаем из переменных окружения (что передаёт Docker)
+        String url = System.getenv("SPRING_DATASOURCE_URL");
+        String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
+
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         dataSource.setDriverClassName("org.postgresql.Driver");
+
         return dataSource;
     }
 }
+*/

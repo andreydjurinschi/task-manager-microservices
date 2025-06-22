@@ -23,6 +23,14 @@ public class Task {
 
     private TaskStatus status;
 
+    public Task(String title, String description, Long createdById, Long assignedTo, TaskStatus status) {
+        this.title = title;
+        this.description = description;
+        this.createdById = createdById;
+        this.assignedTo = assignedTo;
+        this.status = status;
+    }
+
     public Task() {
     }
 
