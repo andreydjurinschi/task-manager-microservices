@@ -74,4 +74,12 @@ public class UserDAOImpl implements UserDAO {
             transaction.rollback();
         }
     }
+
+    @Override
+    public boolean existsById(Long Id) {
+        try(var session = sessionFactory.openSession()) {
+            String sql = "from User where id = :id";
+            return session.createQuery(sql, User.class).setParameter("id", Id).uniqueResult() != null;
+        }
+    }
 }

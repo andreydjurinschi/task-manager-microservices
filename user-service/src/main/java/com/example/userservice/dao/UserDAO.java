@@ -14,4 +14,5 @@ public interface UserDAO {
     User findByUsername(String username);
     void createOrUpdate(User user);
     void delete(Long Id);
+    boolean existsById(Long Id);
 }

@@ -3,7 +3,11 @@ package com.example.task.controller;
 import com.example.task.dto.TaskDTO;
 import com.example.task.entity.Task;
 import com.example.task.entity.TaskStatus;
+import com.example.task.kafka.UserCheckKafkaClient;
 import com.example.task.service.TaskService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +17,21 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
 
+    @Autowired
+    private UserCheckKafkaClient userCheckKafkaClient;
+
     private final TaskService taskService;
+
+
+    @GetMapping("/check-user/{userId}")
+    public  ResponseEntity<String> checkUser(@PathVariable Long userId) throws JsonProcessingException {
+        try{
+            boolean exists = userCheckKafkaClient.checkUserExists(userId);
+            return ResponseEntity.ok(exists ? "YES" : "NO");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body("Error: " + e.getMessage());
+        }
+    }
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
